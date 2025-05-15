@@ -1,13 +1,16 @@
 package main
 
 import (
-	"gothstarter/handlers"
+	"fmt"
 	"log"
 	"log/slog"
 	"net/http"
 	"os"
 
+	"github.com/kakarotDevs/brzdoors-goth/handlers"
+
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/joho/godotenv"
 )
 
@@ -18,11 +21,21 @@ func main() {
 
 	router := chi.NewMux()
 
+	// Middleware should come before route declarations
+	router.Use(middleware.Recoverer)
+
 	router.Handle("/public/*", public())
+	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "Page not found", http.StatusNotFound)
+	})
 	router.Get("/", handlers.Make(handlers.HandleHome))
-	router.Get("/login", handlers.Make(handlers.HandleLogin))
+	router.Handle("/login", handlers.Make(handlers.HandleLogin))
 
 	listenAddr := os.Getenv("LISTEN_ADDR")
-	slog.Info("3, 2, 1, Let's Jam...", "url", "http://localhost"+listenAddr)
-	http.ListenAndServe(listenAddr, router)
+	if listenAddr == "" {
+		listenAddr = ":3000"
+	}
+
+	slog.Info("3, 2, 1, Let's Jam...", "url", fmt.Sprintf("http://localhost%s", listenAddr))
+	log.Fatal(http.ListenAndServe(listenAddr, router))
 }
