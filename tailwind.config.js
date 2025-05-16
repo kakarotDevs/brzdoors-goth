@@ -1,9 +1,19 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./**/*.html", "./**/*.templ", "./**/*.go"],
-  safelist: [],
+  content: [
+    "./views/**/*.templ",
+    "./layouts/**/*.templ",
+    "./components/**/*.templ",
+    "./handlers/**/*.go", // if needed
+    "./*.go",             // for main.go, etc.
+  ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["IBM Plex Sans", "sans-serif"],
+        body: ["IBM Plex Sans", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };

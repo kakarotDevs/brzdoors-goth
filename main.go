@@ -7,11 +7,10 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/kakarotDevs/brzdoors-goth/handlers"
-
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/joho/godotenv"
+	"github.com/kakarotDevs/brzdoors-goth/handlers"
 )
 
 func main() {
@@ -19,17 +18,21 @@ func main() {
 		log.Fatal(err)
 	}
 
-	router := chi.NewMux()
+	r := chi.NewMux()
 
 	// Middleware should come before route declarations
-	router.Use(middleware.Recoverer)
+	r.Use(middleware.Recoverer)
 
-	router.Handle("/public/*", public())
-	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
+	r.Handle("/public/*", public())
+
+	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)
 	})
-	router.Get("/", handlers.Make(handlers.HandleHome))
-	router.Handle("/login", handlers.Make(handlers.HandleLogin))
+
+	r.Get("/", handlers.Make(handlers.HandleHome))
+	r.Get("/about", handlers.Make(handlers.HandleAbout))
+	r.Get("/contact", handlers.Make(handlers.HandleContact))
+	r.Get("/order", handlers.Make(handlers.HandleOrder))
 
 	listenAddr := os.Getenv("LISTEN_ADDR")
 	if listenAddr == "" {
@@ -37,5 +40,5 @@ func main() {
 	}
 
 	slog.Info("3, 2, 1, Let's Jam...", "url", fmt.Sprintf("http://localhost%s", listenAddr))
-	log.Fatal(http.ListenAndServe(listenAddr, router))
+	log.Fatal(http.ListenAndServe(listenAddr, r))
 }
