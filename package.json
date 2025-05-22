@@ -7,11 +7,10 @@
   "devDependencies": {
     "autoprefixer": "^10.4.17",
     "concurrently": "^9.1.2",
-    "postcss": "^8.4.35",
+    "postcss": "^8.5.3",
     "postcss-cli": "^11.0.1",
     "prettier": "^3.5.3",
-    "prettier-plugin-tailwindcss": "^0.6.11",
-    "tailwindcss": "^3.4.17"
+    "prettier-plugin-tailwindcss": "^0.6.11"
   },
   "scripts": {
     "build:css": "npx postcss views/css/app.css -o public/css/app.css",
@@ -27,5 +26,9 @@
   "bugs": {
     "url": "https://github.com/kakarotDevs/brzdoors-goth/issues"
   },
-  "homepage": "https://github.com/kakarotDevs/brzdoors-goth#readme"
+  "homepage": "https://github.com/kakarotDevs/brzdoors-goth#readme",
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.7",
+    "tailwindcss": "^4.1.7"
+  }
 }

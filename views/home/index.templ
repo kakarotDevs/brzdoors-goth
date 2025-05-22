@@ -4,7 +4,19 @@ import "github.com/kakarotDevs/brzdoors-goth/layouts"
 
 templ Index() {
 	@layouts.Base("Home") {
-		<h1 class="text-3xl font-bold">Welcome to Briz Doors</h1>
-		<p class="mt-2 text-gray-700">Opening new doors to simple, efficient design.</p>
+		<div class="space-y-4">
+			<button
+				hx-get="/clicked"
+				hx-target="#click-result"
+				hx-swap="innerHTML"
+				class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+			>
+				Click Me
+			</button>
+			<div id="click-result" class="mt-4"></div>
+			<div style="font-family: 'IBMPlexSans', sans-serif; font-weight: 400;">
+				Should be regular IBM Plex Sans
+			</div>
+		</div>
 	}
 }
